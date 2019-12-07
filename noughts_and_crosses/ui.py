@@ -149,9 +149,10 @@ def draw_winning_line(winning_state):
                         WinningStates.MIDDLE_LEFT_TO_MIDDLE_RIGHT: (-250,-5),
                         WinningStates.BOTTOM_LEFT_TO_BOTTOM_RIGHT: (-250,-175),
                         WinningStates.TOP_LEFT_TO_BOTTOM_RIGHT: (-250,250),
-                        WinningStates.BOTTOM_LEFT_TO_BOTTOM_RIGHT: (-250,-250),
+                        WinningStates.TOP_RIGHT_TO_BOTTOM_LEFT: (-250,-250),
                         }
 
+    # Vertical lines
     if winning_state in [WinningStates.TOP_LEFT_TO_BOTTOM_LEFT, WinningStates.TOP_MIDDLE_TO_BOTTOM_MIDDLE, WinningStates.TOP_RIGHT_TO_BOTTOM_RIGHT]:
 
         turtle.penup()
@@ -161,13 +162,15 @@ def draw_winning_line(winning_state):
         turtle.forward(510)
         turtle.left(90)
 
+    # Horizontal lines
     elif winning_state in [WinningStates.TOP_LEFT_TO_TOP_RIGHT, WinningStates.MIDDLE_LEFT_TO_MIDDLE_RIGHT, WinningStates.BOTTOM_LEFT_TO_BOTTOM_RIGHT]:
 
         turtle.penup()
         turtle.setposition(positions_coords[winning_state])
         turtle.pendown()
         turtle.forward(510)
-        
+
+    # Diagonal line
     elif winning_state == WinningStates.TOP_LEFT_TO_BOTTOM_RIGHT:
         
         turtle.penup()
@@ -176,8 +179,9 @@ def draw_winning_line(winning_state):
         turtle.right(45)
         turtle.forward(710)
         turtle.left(45)
-        
-    elif winning_state == WinningStates.BOTTOM_LEFT_TO_BOTTOM_RIGHT:
+
+    # Diagonal line
+    elif winning_state == WinningStates.TOP_RIGHT_TO_BOTTOM_LEFT:
 
         turtle.penup()
         turtle.setposition(positions_coords[winning_state])
