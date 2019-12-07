@@ -153,11 +153,14 @@ class Game():
 				# that will give the computer the most possible winning scenarios at this stage of the game
 				if len(possible_moves)==8:
 
+					# All first moves are implemented
 					possible_moves = computer_first_move(self.grid)
 
 				elif len(possible_moves)==6:
 					
-					possible_moves = computer_second_move(self.grid)
+					# If there are hard implemented moves for second move, use them
+					if len(computer_second_move(self.grid)) >= 1:
+						possible_moves = computer_second_move(self.grid)
 
 				if computer_win_move(self.grid) != None:
 					chosen_move = computer_win_move(self.grid)
