@@ -3,13 +3,11 @@
 
 from winning_states import WinningStates
 from move import Move
-from player import Player
+from player import HumanPlayer, ComputerPlayer
 
 class Game():
 
-	def __init__(self, difficulty):
-
-		self.difficulty = difficulty
+	def __init__(self):
 
 		self.game_status = ("incomplete", None)
 
@@ -28,6 +26,7 @@ class Game():
 					 0, 0, 0,
 					 0, 0, 0,
 					 0, 0, 0]
+
 
 	def update_game_status(self):
 
@@ -110,6 +109,7 @@ class Game():
 
 		self.grid[move.grid_position] = move.symbol
 		self.update_game_status()
+		self.display()
 
 
 	def display(self):
@@ -120,89 +120,98 @@ class Game():
 			
 			print(self.grid[i], self.grid[i+1], self.grid[i+2])
 
-	
+
 	def player_turn(self, player):
 
-		player_move = input(player.name + ", enter grid position: ")
+		if isinstance(player, HumanPlayer):
 
-		self.update_grid(Move(int(player_move), player.symbol))
-
-		self.display()
+			player_move = input(player.name + ", enter grid position: ")
+			self.update_grid(Move(int(player_move), player.symbol))
 		
+		elif isinstance(player, ComputerPlayer):
+			
+			if player.difficulty == 1:
+				# TODO Random moves
+				computer_move = 8
+				self.update_grid(Move(int(computer_move), player.symbol))
+
+			elif player.difficulty == 2:
+				# TODO Hard implemented moves, except possible lucky ways
+				computer_move = 7
+				self.update_grid(Move(int(computer_move), player.symbol))
+
+			elif player.difficulty == 3:
+				# TODO Hard implemented moves for all cases, player can draw at best
+				computer_move = 9
+				self.update_grid(Move(int(computer_move), player.symbol))
+			
+		else:
+			raise TypeError("Incorrect player type created")
 
 
 class SinglePlayerGame(Game):
 
-	def computer_turn(self):
-
-		if self.difficulty == "easy":
-			# Random moves
-			pass
-		elif self.difficulty == "hard":
-			# Hard implemented moves, except possible lucky ways
-			pass
-		elif self.difficulty == "impossible":
-			# Hard implemented moves for all cases, player can draw at best
-			pass
-
-		self.display()
-
 
 	def start(self):
 
+		# Create human_player instance based on user input
 		player_name = input("Enter your name:")
-
 		player_symbol = input("Choose your symbol. X or O:")
+		human_player = HumanPlayer(player_name, player_symbol)
 
-		new_player = Player(player_name, player_symbol)
-		
+		# Choose difficulty of computer player
+		selected_difficulty = int(input("--Select Difficulty--\n1. Easy \n2. Hard \n3. Impossible \n \nEnter 1 or 2 or 3: "))
+
+		# Create computer_player instance based on chosen difficulty
+		computer_symbol = "O" if player_symbol == "X" else "X"
+		computer_player = ComputerPlayer("Computer", computer_symbol, selected_difficulty)
+
+		# Human player starts, current_player will alternate after each turn
+		# TODO: Ask human user if they want to go first or second
+		current_player = human_player
+
+		# While no win or draw, ask current_player for a turn
 		while self.game_status[0] == "incomplete":
 
-			self.player_turn(new_player)
-			self.computer_turn()
-
-
-class MultiplayerGame(Game):
-
-	def start(self):
-
-		player1_name = input("Player 1, enter your name:")
-
-		player1_symbol = input("Player 1, choose your symbol. X or O:")
-
-		player1 = Player(player1_name, player1_symbol)
-		
-		player2_name = input("Player 2, enter your name:")
-
-		player2_symbol = "O" if player1_symbol == "X" else "X"
-
-		player2 = Player(player2_name, player2_symbol)
-
-		while self.game_status[0] == "incomplete":
-
-			self.player_turn(player1)
+			# For the current player, they input position for their symbol
+			self.player_turn(current_player)
 			
-			if(self.game_status[0] != "incomplete"):
-				break
+			# Update current_player based on who just had their turn
+			current_player = computer_player if current_player == human_player else human_player
 
-			self.player_turn(player2)
-
+		# Once out of while loop, game is complete so display outcome
 		print("Game Result: " + self.game_status[0])
 
+class MultiplayerGame(Game):
+	"""Multiplayer implementation of two human players
+	"""
 
-if __name__ == "__main__":
+	def start(self):
+		"""Function called to start the game
+		"""
+
+		# Create player1 instance based on user input
+		player1_name = input("Player 1, enter your name:")
+		player1_symbol = input("Player 1, choose your symbol. X or O:")
+		player1 = HumanPlayer(player1_name, player1_symbol)
 		
-	print("\n Welcome to Noughts and Crosses!")
-	selected_mode = int(input("\n --Select Game Mode--\n 1. Single Player \n 2. Multiplayer \n \n Enter 1 or 2: "))
+		# Create player2 based on input and remaining symbol
+		player2_name = input("Player 2, enter your name:")
+		player2_symbol = "O" if player1_symbol == "X" else "X"
+		player2 = HumanPlayer(player2_name, player2_symbol)
 
-	if selected_mode == 1:
-		
-		selected_difficulty = int(input("\n --Select Difficulty--\n 1. Easy \n 2. Hard \n 3. Impossible \n \n Enter 1 or 2 or 3: "))
-		
-		new_game = SinglePlayerGame(selected_difficulty)
-		new_game.start()
+		# player1 starts, current_player will alternate after each turn
+		current_player = player1
 
-	elif selected_mode == 2:
+		# While no win or draw, ask current_player for a turn
+		while self.game_status[0] == "incomplete":
 
-		new_game = MultiplayerGame(None)
-		new_game.start()
+			# For the current player, they input position for their symbol
+			self.player_turn(current_player)
+			
+			# Update current_player based on who just had their turn
+			current_player = player2 if current_player == player1 else player1
+
+		# Once out of while loop, game is complete so display outcome
+		print("Game Result: " + self.game_status[0])
+
