@@ -50,23 +50,23 @@ def computer_win_move(grid):
 
     # For each of the 9 grid squares, check to see if it has to be played for the computer to win the game
     # But also make sure that this grid square hasn't already been played first as well
-    if((grid[2]=="O" and grid[3]=="O") or (grid[4]=="O" and grid[7]=="O") or (grid[5]=="O" and grid[9]=="O")) and (grid[1] != 1) and (grid[1] != 2):
+    if((grid[2]=="O" and grid[3]=="O") or (grid[4]=="O" and grid[7]=="O") or (grid[5]=="O" and grid[9]=="O")) and (grid[1] != "X") and (grid[1] != "O"):
             chosen_move = 1
-    elif((grid[1]=="O" and grid[3]=="O") or (grid[5]=="O" and grid[8]=="O")) and (grid[2] != 1) and (grid[2] != 2):
+    elif((grid[1]=="O" and grid[3]=="O") or (grid[5]=="O" and grid[8]=="O")) and (grid[2] != "X") and (grid[2] != "O"):
             chosen_move = 2
-    elif((grid[1]=="O" and grid[2]=="O") or (grid[6]=="O" and grid[9]=="O") or (grid[5]=="O" and grid[7]=="O")) and (grid[3] != 1) and (grid[3] != 2):
+    elif((grid[1]=="O" and grid[2]=="O") or (grid[6]=="O" and grid[9]=="O") or (grid[5]=="O" and grid[7]=="O")) and (grid[3] != "X") and (grid[3] != "O"):
             chosen_move = 3
-    elif((grid[1]=="O" and grid[7]=="O") or (grid[5]=="O" and grid[6]=="O")) and (grid[4] != 1) and (grid[4] != 2):
+    elif((grid[1]=="O" and grid[7]=="O") or (grid[5]=="O" and grid[6]=="O")) and (grid[4] != "X") and (grid[4] != "O"):
             chosen_move = 4
-    elif((grid[1]=="O" and grid[9]=="O") or (grid[2]=="O" and grid[8]=="O") or (grid[3]=="O" and grid[7]=="O") or (grid[4]=="O" and grid[6]=="O")) and (grid[5] != 1) and (grid[5] != 2):
+    elif((grid[1]=="O" and grid[9]=="O") or (grid[2]=="O" and grid[8]=="O") or (grid[3]=="O" and grid[7]=="O") or (grid[4]=="O" and grid[6]=="O")) and (grid[5] != "X") and (grid[5] != "O"):
             chosen_move = 5
-    elif((grid[3]=="O" and grid[9]=="O") or (grid[4]=="O" and grid[5]=="O")) and (grid[6] != 1) and (grid[6] != 2):
+    elif((grid[3]=="O" and grid[9]=="O") or (grid[4]=="O" and grid[5]=="O")) and (grid[6] != "X") and (grid[6] != "O"):
             chosen_move = 6
-    elif((grid[1]=="O" and grid[4]=="O") or (grid[8]=="O" and grid[9]=="O") or (grid[3]=="O" and grid[5]=="O")) and (grid[7] != 1) and (grid[7] != 2):
+    elif((grid[1]=="O" and grid[4]=="O") or (grid[8]=="O" and grid[9]=="O") or (grid[3]=="O" and grid[5]=="O")) and (grid[7] != "X") and (grid[7] != "O"):
             chosen_move = 7
-    elif((grid[2]=="O" and grid[5]=="O") or (grid[7]=="O" and grid[9]=="O")) and (grid[8] != 1) and (grid[8] != 2):
+    elif((grid[2]=="O" and grid[5]=="O") or (grid[7]=="O" and grid[9]=="O")) and (grid[8] != "X") and (grid[8] != "O"):
             chosen_move = 8
-    elif((grid[3]=="O" and grid[6]=="O") or (grid[1]=="O" and grid[5]=="O") or (grid[7]=="O" and grid[8]=="O")) and (grid[9] != 1) and (grid[9] != 2):
+    elif((grid[3]=="O" and grid[6]=="O") or (grid[1]=="O" and grid[5]=="O") or (grid[7]=="O" and grid[8]=="O")) and (grid[9] != "X") and (grid[9] != "O"):
             chosen_move = 9
 
     return chosen_move
@@ -77,23 +77,23 @@ def computer_block_move(grid):
 
     # For each of the 9 grid squares, check to see if it has to be played to block the player from winning
     # But also make sure that this grid square hasn't already been played first as well
-    if((grid[2]=="X" and grid[3]=="X") or (grid[4]=="X" and grid[7]=="X") or (grid[5]=="X" and grid[9]=="X")) and (grid[1] != 1) and (grid[1] != 2):
+    if((grid[2]=="X" and grid[3]=="X") or (grid[4]=="X" and grid[7]=="X") or (grid[5]=="X" and grid[9]=="X")) and (grid[1] != "X") and (grid[1] != "O"):
             chosen_move = 1
-    elif((grid[1]=="X" and grid[3]=="X") or (grid[5]=="X" and grid[8]=="X")) and (grid[2] != 1) and (grid[2] != 2):
+    elif((grid[1]=="X" and grid[3]=="X") or (grid[5]=="X" and grid[8]=="X")) and (grid[2] != "X") and (grid[2] != "O"):
             chosen_move = 2
-    elif((grid[1]=="X" and grid[2]=="X") or (grid[6]=="X" and grid[9]=="X") or (grid[5]=="X" and grid[7]=="X")) and (grid[3] != 1) and (grid[3] != 2):
+    elif((grid[1]=="X" and grid[2]=="X") or (grid[6]=="X" and grid[9]=="X") or (grid[5]=="X" and grid[7]=="X")) and (grid[3] != "X") and (grid[3] != "O"):
             chosen_move = 3
-    elif((grid[1]=="X" and grid[7]=="X") or (grid[5]=="X" and grid[6]=="X")) and (grid[4] != 1) and (grid[4] != 2):
+    elif((grid[1]=="X" and grid[7]=="X") or (grid[5]=="X" and grid[6]=="X")) and (grid[4] != "X") and (grid[4] != "O"):
             chosen_move = 4
-    elif((grid[1]=="X" and grid[9]=="X") or (grid[2]=="X" and grid[8]=="X") or (grid[3]=="X" and grid[7]=="X") or (grid[4]=="X" and grid[6]=="X")) and (grid[5] != 1) and (grid[5] != 2):
+    elif((grid[1]=="X" and grid[9]=="X") or (grid[2]=="X" and grid[8]=="X") or (grid[3]=="X" and grid[7]=="X") or (grid[4]=="X" and grid[6]=="X")) and (grid[5] != "X") and (grid[5] != "O"):
             chosen_move = 5
-    elif((grid[3]=="X" and grid[9]=="X") or (grid[4]=="X" and grid[5]=="X")) and (grid[6] != 1) and (grid[6] != 2):
+    elif((grid[3]=="X" and grid[9]=="X") or (grid[4]=="X" and grid[5]=="X")) and (grid[6] != "X") and (grid[6] != "O"):
             chosen_move = 6
-    elif((grid[1]=="X" and grid[4]=="X") or (grid[8]=="X" and grid[9]=="X") or (grid[3]=="X" and grid[5]=="X")) and (grid[7] != 1) and (grid[7] != 2):
+    elif((grid[1]=="X" and grid[4]=="X") or (grid[8]=="X" and grid[9]=="X") or (grid[3]=="X" and grid[5]=="X")) and (grid[7] != "X") and (grid[7] != "O"):
             chosen_move = 7
-    elif((grid[2]=="X" and grid[5]=="X") or (grid[7]=="X" and grid[9]=="X")) and (grid[8] != 1) and (grid[8] != 2):
+    elif((grid[2]=="X" and grid[5]=="X") or (grid[7]=="X" and grid[9]=="X")) and (grid[8] != "X") and (grid[8] != "O"):
             chosen_move = 8
-    elif((grid[3]=="X" and grid[6]=="X") or (grid[1]=="X" and grid[5]=="X") or (grid[7]=="X" and grid[8]=="X")) and (grid[9] != 1) and (grid[9] != 2):
+    elif((grid[3]=="X" and grid[6]=="X") or (grid[1]=="X" and grid[5]=="X") or (grid[7]=="X" and grid[8]=="X")) and (grid[9] != "X") and (grid[9] != "O"):
             chosen_move = 9
 
     return chosen_move

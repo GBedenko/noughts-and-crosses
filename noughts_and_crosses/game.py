@@ -1,10 +1,9 @@
 """Class to represent a game of Noughts and Crosses
 """
-
-from winning_states import WinningStates
-from move import Move
-from player import HumanPlayer, ComputerPlayer
-from ai import computer_first_move, computer_second_move, computer_win_move, computer_block_move
+from noughts_and_crosses.winning_states import WinningStates
+from noughts_and_crosses.move import Move
+from noughts_and_crosses.player import HumanPlayer, ComputerPlayer
+from noughts_and_crosses.ai import computer_first_move, computer_second_move, computer_win_move, computer_block_move
 
 from random import choice
 

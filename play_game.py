@@ -1,4 +1,4 @@
-from game import SinglePlayerGame, MultiplayerGame
+from noughts_and_crosses.game import SinglePlayerGame, MultiplayerGame
 
 if __name__ == "__main__":
 		
