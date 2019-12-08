@@ -4,10 +4,10 @@ from noughts_and_crosses.winning_states import WinningStates
 from noughts_and_crosses.move import Move
 from noughts_and_crosses.player import HumanPlayer, ComputerPlayer
 from noughts_and_crosses.ai import computer_first_move, computer_second_move, computer_win_move, computer_block_move
+from noughts_and_crosses.ui import text_input_box, turn_input_box, draw_cross, draw_nought, draw_winning_line, setup_ui
 
 from random import choice
 from pickle import dump
-import turtle
 from tkinter import messagebox
 
 class Game():
@@ -151,23 +151,40 @@ class Game():
 
 		self.grid[move.grid_position] = move.symbol
 		self.update_game_status()
-		self.display()
+
+		if move.symbol == "X":
+			draw_cross(move.grid_position)
+		elif move.symbol == "O":
+			draw_nought(move.grid_position)
+		else:
+			raise ValueError("Incorrect symbol used")
 
 
-	def display(self):
-		
-		print("\n")
-		
-		for i in range(1, 10, 3):
-			
-			print(self.grid[i], self.grid[i+1], self.grid[i+2])
+	def end_game(self):
+
+		draw_winning_line(self.game_status[1])
+
+		if(self.game_status[0]=="crosses_win"):        
+			messagebox.showinfo("Game Finished", "Crosses Wins!")
+		elif(self.game_status[0]=="noughts_win"):
+			messagebox.showinfo("Game Finished", "Noughts Wins!")			
+		elif(self.game_status[0]=="draw"):
+			messagebox.showinfo("Game Finished", "It's a Draw!")
+
+		play_again = messagebox.askquestion("Game Finished", "Play Again?")
+
+		if (play_again=="yes"):
+					
+			setup_ui()		
+			new_game = Game().select_game_mode()
+			new_game.start()
 
 
 	def player_turn(self, player):
 
 		if isinstance(player, HumanPlayer):
 
-			chosen_move = int(input(player.name + ", enter grid position: "))
+			chosen_move = turn_input_box(player.name)
 		
 		elif isinstance(player, ComputerPlayer):
 			
@@ -214,11 +231,11 @@ class Game():
 			
 		else:
 			raise TypeError("Incorrect player type created")
-
+		
 		# Check that this move is valid, and hasn't already been made
 		if (self.grid[chosen_move] == "X") or (self.grid[chosen_move] == "O"):
 			
-			print("Invalid Move. This grid square has already been used. Please select another")
+			messagebox.showinfo("Invalid Move", "This grid square has already been used please select another")
 			self.player_turn(player)
 
 		else:
@@ -232,12 +249,12 @@ class SinglePlayerGame(Game):
 	def start(self):
 
 		# Create human_player instance based on user input
-		player_name = turtle.textinput("Player Name", "Enter your name:")
-		player_symbol = turtle.textinput("Player Symbol", "Choose your symbol. X or O:")
+		player_name = text_input_box("Player Name", "Enter your name:")
+		player_symbol = text_input_box("Player Symbol", "Choose your symbol. X or O:")
 		human_player = HumanPlayer(player_name, player_symbol)
 
 		# Choose difficulty of computer player
-		selected_difficulty = turtle.textinput("Select Difficulty", "1. Easy \n2. Hard \n3. Impossible:")
+		selected_difficulty = int(text_input_box("Select Difficulty", "1. Easy \n2. Hard \n3. Impossible:"))
 
 		# Create computer_player instance based on chosen difficulty
 		computer_symbol = "O" if player_symbol == "X" else "X"
@@ -257,7 +274,7 @@ class SinglePlayerGame(Game):
 			current_player = computer_player if current_player == human_player else human_player
 
 		# Once out of while loop, game is complete so display outcome
-		print("Game Result: " + self.game_status[0])
+		self.end_game()
 
 
 class MultiplayerGame(Game):
@@ -271,12 +288,12 @@ class MultiplayerGame(Game):
 		self.multiplayer = True
 
 		# Create player1 instance based on user input
-		player1_name = turtle.textinput("Player 1 Name", "Player 1, enter your name:")
-		player1_symbol = turtle.textinput("Player 1 Symbol", "Player 1, choose your symbol. X or O:")
+		player1_name = text_input_box("Player 1 Name", "Player 1, enter your name:")
+		player1_symbol = text_input_box("Player 1 Symbol", "Player 1, choose your symbol. X or O:")
 		player1 = HumanPlayer(player1_name, player1_symbol)
 		
 		# Create player2 based on input and remaining symbol
-		player2_name = turtle.textinput("Player 2 Name", "Player 2, enter your name:")
+		player2_name = text_input_box("Player 2 Name", "Player 2, enter your name:")
 		player2_symbol = "O" if player1_symbol == "X" else "X"
 		player2 = HumanPlayer(player2_name, player2_symbol)
 
@@ -293,19 +310,5 @@ class MultiplayerGame(Game):
 			current_player = player2 if current_player == player1 else player1
 
 		# Once out of while loop, game is complete so display outcome
-		print("Game Result: " + self.game_status[0])
-
-		if(self.game_status=="crosses_win"):        
-			messagebox.showinfo("Game Finished", "Crosses Wins!")
-		elif(self.game_status=="noughts_win"):
-			messagebox.showinfo("Game Finished", "Noughts Wins!")			
-		elif(self.game_status=="draw"):
-			messagebox.showinfo("Game Finished", "It's a Draw!")
-
-		play_again = messagebox.askquestion("Game Finished", "Play Again?")
-
-		if (play_again=="yes"):
-							
-			new_game = Game().select_game_mode()
-			new_game.start()
+		self.end_game()
 

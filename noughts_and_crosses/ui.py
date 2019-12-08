@@ -195,8 +195,23 @@ def draw_winning_line(winning_state):
 
 def setup_ui():
 
+	turtle.reset()
 	turtle.setup(650,600)
 	turtle.title("Noughts and Crosses by Genaro Bedenko")
 	draw_grid()
 
 	display_rules()	
+
+
+def text_input_box(title, message):
+
+	user_input = turtle.textinput(title, message)
+
+	return user_input
+
+
+def turn_input_box(player_name):
+
+	user_input = int(turtle.numinput(player_name + "'s turn", "Enter your move:", minval = 1, maxval = 9))
+
+	return user_input
