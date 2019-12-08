@@ -1,4 +1,4 @@
-"""TODO Functions for interacting with and displaying the user interface"""
+"""Functions for interacting with and displaying the user interface"""
 
 import turtle
 from tkinter import messagebox
@@ -10,16 +10,11 @@ def display_rules():
 	'''Displays the instructions and how to play in a messagebox to the user'''
 
 	messagebox.showinfo("How to Play", "In this game you will take it in turns, either between two human players or between yourself and the computer,"
-						+ " to enter a symbol into the grid. "
-						+ "\n"
-						+ "\nTo do this you need to enter a value between 1 to 9 to represent the 9 grid squares."
-						+ "\n"
-						+ "\n1 represents the top-left grid square, 2 represents the top-middle square and so on, reading from left to right for each row."
-						+ "\n"
+						+ " to enter a symbol into the grid.\n"
+						+ "\nTo do this you need to enter a value between 1 to 9 to represent the 9 grid squares.\n"
+						+ "\n1 represents the top-left grid square, 2 represents the top-middle square and so on, reading from left to right for each row.\n"
 						+ "\nThe game is complete when it is won (if there are three of the same symbols in a row), or if it is a draw (the grid is complete"
-						+ "\nwithout any winning scenario)"
-						+ "\n"
-						+ "\nIf you cancel your move the game will save automatically and you can finish the game later.")
+						+ "\nwithout any winning scenario)\n")
 
 
 def draw_grid():
@@ -98,7 +93,7 @@ def draw_cross(grid_position):
 	turtle.left(90)
 	turtle.forward(200)
 		
-	# Reset the angle turtle is facing to the original direction 
+	# Reset the angle turtle is facing to the original direction
 	turtle.right(45)
 
 
@@ -144,7 +139,7 @@ def draw_winning_line(winning_state):
 						WinningStates.BOTTOM_LEFT_TO_BOTTOM_RIGHT: (-250,-175),
 						WinningStates.TOP_LEFT_TO_BOTTOM_RIGHT: (-250,250),
 						WinningStates.TOP_RIGHT_TO_BOTTOM_LEFT: (-250,-250),
-						}
+					}
 
 	# Vertical lines
 	if winning_state in [WinningStates.TOP_LEFT_TO_BOTTOM_LEFT, WinningStates.TOP_MIDDLE_TO_BOTTOM_MIDDLE, WinningStates.TOP_RIGHT_TO_BOTTOM_RIGHT]:
@@ -186,7 +181,7 @@ def draw_winning_line(winning_state):
 
 
 def setup_ui():
-	"""TODO"""
+	"""Creates the user interface window, draws the grid, shows welcome message to the user"""
 
 	# Creates window for turtle to create ui in
 	turtle.reset() # Resets if a previous game was played in same window
@@ -199,12 +194,12 @@ def setup_ui():
 
 
 def text_input_box(title, message):
-	"""Generic turtle interaction for retriving user input as a string"""
+	"""Generic prompt for retriving user input as a string"""
 
 	return turtle.textinput(title, message)
 
 
 def turn_input_box(player_name):
-	"""TODO"""
+	"""Prompt for requesting a grid position for the user's turn"""
 
 	return int(turtle.numinput(player_name + "'s turn", "Enter your move:", minval = 1, maxval = 9))

@@ -1,7 +1,7 @@
-"""TODO Implementations for the computer's moves"""
+"""Logic for implementation of how the computer decides a move"""
 
 def computer_first_move(grid):
-	"""TODO"""
+	"""Provides a list of moves the computer should use for its first move"""
 
 	# If human first move was in a corner
 	if grid[1] != 0 or grid[3] != 0 or grid[7] != 0 or grid[9] != 0:
@@ -24,7 +24,8 @@ def computer_first_move(grid):
 	return possible_moves
 
 def computer_second_move(grid):
-	"""TODO"""
+	"""Provides a list of moves the computer should use for its first move
+	   List may be empty if no implemented second move is needed"""
 
 	possible_moves = [] # Will be populated with implemented possible moves, but can remain empty if no implemented second move is needed
 	
@@ -47,7 +48,7 @@ def computer_second_move(grid):
 	return possible_moves
 
 def computer_win_move(grid):
-	"""TODO"""
+	"""Provides a specific grid position as a move for the computer to win the game"""
 
 	chosen_move = None
 
@@ -75,7 +76,7 @@ def computer_win_move(grid):
 	return chosen_move
 
 def computer_block_move(grid):
-	"""TODO"""
+	"""Provides a specific grid position as a move for the computer to block the human from winning the game"""
 	
 	chosen_move = None
 

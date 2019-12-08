@@ -1,4 +1,4 @@
-"""Class to represent a game of Noughts and Crosses"""
+"""Represents a game of Noughts and Crosses"""
 
 from random import choice
 from tkinter import messagebox
@@ -13,13 +13,11 @@ from noughts_and_crosses.winning_states import WinningStates
 
 
 class Game():
-	"""TODO
-	"""
+	"""Represents a game of Noughts and Crosses"""
 
 
 	def __init__(self):
-		"""TODO
-		"""
+		"""Initialise the default values for a game"""
 
 		# Grid squares: -1 = ignored, 0 = empty, X = cross, O = nought
 		self.grid = [-1,
@@ -27,15 +25,14 @@ class Game():
 					 0, 0, 0,
 					 0, 0, 0]
 
+		# Status first argument is one of "crosses_win", "noughts_win", "draw", or "incomplete"
+		# Status second argument is one of the 8 winning scenarios in enumerator winning_states
 		self.game_status = ("incomplete", None)
-
-		self.CROSSES_SYMBOL = "X"
-		self.NOUGHTS_SYMBOL = "O"
 
 
 	def select_game_mode(self):
-		"""TODO
-		"""
+		"""Asks user if playing a single player or multiplayer game and returns
+		   the appropiate subclass of Game"""
 
 		# Ask user for single player or multiplayer game
 		selected_mode = messagebox.askquestion(title="Select Game Mode", message="Do you want to play a multiplayer game?"
@@ -48,6 +45,8 @@ class Game():
 
 
 	def update_game_status(self):
+		"""Checks the game's grid to see if there is an end game scenario and if
+		   there is it updates the game status accordingly"""
 
 		# Check all winning scenarios for a crosses win
 		if self.grid[1]=="X" and self.grid[4]=="X" and self.grid[7]=="X":
@@ -95,8 +94,8 @@ class Game():
 
 
 	def update_grid(self, move):
-		"""TODO
-		"""
+		"""Updates the game's grid with the new move's symbol.
+		   Requests to update the game status and updates the user interface"""
 
 		# Update grid with new move, update game status to check if game is complete
 		self.grid[move.grid_position] = move.symbol
@@ -110,8 +109,8 @@ class Game():
 
 
 	def end_game(self):
-		"""TODO
-		"""
+		"""Confirms to the user that the game has ended, displays winning scenario if
+		   required, and then asks the user if they want to play again"""
 
 		# Draw line if game was won, does nothing if game is a draw
 		draw_winning_line(self.game_status[1])
@@ -135,8 +134,12 @@ class Game():
 
 
 	def player_turn(self, player):
-		"""TODO
-		"""
+		"""For the current player, retrieves their chosen move, checks the move is valid,
+		   makes the move for them and calls for the game to be updated.
+		   
+		   If the player is a human, it retrieves the chosen move from ui input.
+
+		   If the player is the computer, it decides the chosen move based on the difficulty"""
 
 		# If it is a human player's turn
 		if isinstance(player, HumanPlayer):
@@ -183,7 +186,7 @@ class Game():
 			# Impossible difficulty, all computer's moves implemented, player can draw at best
 			elif player.difficulty == 3:
 
-				# TODO Hard implemented moves for all cases, hard difficulty plus third move implemented
+				# TODO Implement moves for all cases, hard difficulty plus third move implemented. Uses random choice of move for now
 				chosen_move = choice(possible_moves)
 		
 		# Check that this move is valid, and hasn't already been made
@@ -199,28 +202,24 @@ class Game():
 
 
 class SinglePlayerGame(Game):
-	"""TODO
-	"""
+	"""Represents a single player version of the game"""
 
 
 	def start(self):
-		"""TODO
-		"""
+		"""Sets up the game and requests turns from player's until game is complete"""
 
 		# Create human player based on user input
 		player_name = text_input_box("Player Name", "Enter your name:")
 		player_symbol = text_input_box("Player Symbol", "Choose your symbol. X or O:")
 		human_player = HumanPlayer(player_name, player_symbol)
 
-		# Choose difficulty of computer player
-		selected_difficulty = int(text_input_box("Select Difficulty", "1. Easy \n2. Hard \n3. Impossible"))
-
 		# Create computer player instance based on chosen difficulty
+		selected_difficulty = int(text_input_box("Select Difficulty", "1. Easy \n2. Hard \n3. Impossible"))
 		computer_symbol = "O" if player_symbol == "X" else "X"
 		computer_player = ComputerPlayer("Computer", computer_symbol, selected_difficulty)
 
 		# Human player starts, current_player will alternate after each turn
-		# TODO: Ask human user if they want to go first or second
+		# TODO: Ask human player if they want to go first or second
 		current_player = human_player
 
 		# While no win or draw, ask current_player for a turn
@@ -237,13 +236,11 @@ class SinglePlayerGame(Game):
 
 
 class MultiplayerGame(Game):
-	"""TODO Multiplayer implementation of two human players
-	"""
+	"""Represents a multiplayer version of the game"""
 
 
 	def start(self):
-		"""TODO Function called to start the game
-		"""
+		"""Sets up the game and requests turns from player's until game is complete"""
 
 		# Create player1 instance based on user input
 		player1_name = text_input_box("Player 1 Name", "Player 1, enter your name:")

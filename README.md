@@ -15,3 +15,9 @@ cd noughts-and-crosses
 
 python3 play_game.py
 ```
+
+## TODO
+
+* Testing
+* Impossible mode
+* Documentation and formal docstrings with params/returns explained
