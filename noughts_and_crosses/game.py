@@ -6,12 +6,16 @@ from noughts_and_crosses.player import HumanPlayer, ComputerPlayer
 from noughts_and_crosses.ai import computer_first_move, computer_second_move, computer_win_move, computer_block_move
 
 from random import choice
+from pickle import dump
+import turtle
+from tkinter import messagebox
 
 class Game():
 
 	def __init__(self):
 
 		self.game_status = ("incomplete", None)
+		self.multiplayer = False
 
 		# Grid squares: -1 = ignored, 0 = empty, X = cross, O = nought
 		self.grid = [-1,
@@ -21,7 +25,19 @@ class Game():
 
 		self.CROSSES_SYMBOL = "X"
 		self.NOUGHTS_SYMBOL = "O"
-							 
+
+		self.clear_board()
+
+
+	def select_game_mode(self):
+
+		selected_mode = messagebox.askquestion(title="Select Game Mode", message="Do you want to play a multiplayer game?"
+																		+ "\n"
+																		+ "\nSelect 'Yes' for a multiplayer game,"
+																		+" if not select 'No' for a game versus the computer")
+		
+		return SinglePlayerGame() if selected_mode == "no" else MultiplayerGame()
+
 
 	def clear_board(self):
 		# Could be used to scrap game if player knows they can't win
@@ -31,6 +47,27 @@ class Game():
 					 0, 0, 0,
 					 0, 0, 0,
 					 0, 0, 0]
+
+
+	def save(self):
+		# TODO Use this for a save game option
+
+		# Open the file in write data mode
+		f = open("saved_game.pickle", "wb")
+
+		# Save the gridSquares list to the file
+		dump(self.grid, f)
+
+		# Save the game mode variable to the file
+		dump(self.multiplayer, f)
+
+		# Close the file once done with it
+		f.close()
+
+
+	def load(self):
+		# TODO: Load game functionality
+		pass
 
 
 	def update_game_status(self):
@@ -195,12 +232,12 @@ class SinglePlayerGame(Game):
 	def start(self):
 
 		# Create human_player instance based on user input
-		player_name = input("Enter your name:")
-		player_symbol = input("Choose your symbol. X or O:")
+		player_name = turtle.textinput("Player Name", "Enter your name:")
+		player_symbol = turtle.textinput("Player Symbol", "Choose your symbol. X or O:")
 		human_player = HumanPlayer(player_name, player_symbol)
 
 		# Choose difficulty of computer player
-		selected_difficulty = int(input("--Select Difficulty--\n1. Easy \n2. Hard \n3. Impossible \n \nEnter 1 or 2 or 3: "))
+		selected_difficulty = turtle.textinput("Select Difficulty", "1. Easy \n2. Hard \n3. Impossible:")
 
 		# Create computer_player instance based on chosen difficulty
 		computer_symbol = "O" if player_symbol == "X" else "X"
@@ -222,6 +259,7 @@ class SinglePlayerGame(Game):
 		# Once out of while loop, game is complete so display outcome
 		print("Game Result: " + self.game_status[0])
 
+
 class MultiplayerGame(Game):
 	"""Multiplayer implementation of two human players
 	"""
@@ -230,13 +268,15 @@ class MultiplayerGame(Game):
 		"""Function called to start the game
 		"""
 
+		self.multiplayer = True
+
 		# Create player1 instance based on user input
-		player1_name = input("Player 1, enter your name:")
-		player1_symbol = input("Player 1, choose your symbol. X or O:")
+		player1_name = turtle.textinput("Player 1 Name", "Player 1, enter your name:")
+		player1_symbol = turtle.textinput("Player 1 Symbol", "Player 1, choose your symbol. X or O:")
 		player1 = HumanPlayer(player1_name, player1_symbol)
 		
 		# Create player2 based on input and remaining symbol
-		player2_name = input("Player 2, enter your name:")
+		player2_name = turtle.textinput("Player 2 Name", "Player 2, enter your name:")
 		player2_symbol = "O" if player1_symbol == "X" else "X"
 		player2 = HumanPlayer(player2_name, player2_symbol)
 
@@ -254,4 +294,18 @@ class MultiplayerGame(Game):
 
 		# Once out of while loop, game is complete so display outcome
 		print("Game Result: " + self.game_status[0])
+
+		if(self.game_status=="crosses_win"):        
+			messagebox.showinfo("Game Finished", "Crosses Wins!")
+		elif(self.game_status=="noughts_win"):
+			messagebox.showinfo("Game Finished", "Noughts Wins!")			
+		elif(self.game_status=="draw"):
+			messagebox.showinfo("Game Finished", "It's a Draw!")
+
+		play_again = messagebox.askquestion("Game Finished", "Play Again?")
+
+		if (play_again=="yes"):
+							
+			new_game = Game().select_game_mode()
+			new_game.start()
 

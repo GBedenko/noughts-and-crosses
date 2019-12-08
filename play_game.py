@@ -1,25 +1,28 @@
-from noughts_and_crosses.game import SinglePlayerGame, MultiplayerGame
-from noughts_and_crosses.ui import display_rules, draw_grid, draw_cross, draw_nought, draw_winning_line
+from noughts_and_crosses.game import Game
+from noughts_and_crosses.ui import display_rules, draw_grid, draw_cross, draw_nought, draw_winning_line, setup_ui
 from noughts_and_crosses.winning_states import WinningStates
+
+from tkinter import messagebox
+
 
 if __name__ == "__main__":
 		
-	print("Welcome to Noughts and Crosses! \n")
-
-	draw_grid()
-	display_rules()
-
-	for i in WinningStates:
-		draw_winning_line(i)
-
-	selected_mode = int(input("--Select Game Mode--\n1. Single Player \n2. Multiplayer \n \nEnter 1 or 2: "))
-
-	if selected_mode == 1:
+	setup_ui()
+	new_game = Game().select_game_mode()
+	new_game.start()
 		
-		new_game = SinglePlayerGame()
-		new_game.start()
+	# playSavedGame = messagebox.askquestion(title="Play Previous Game?", message="Do you want to play a previously saved game?")
 
-	elif selected_mode == 2:
+	# if(playSavedGame=="yes"):
+	# 	try:
+	# 		loadGame(gridSquares)
 
-		new_game = MultiplayerGame()
-		new_game.start()
+	# 	# If the user clicks yes to play a saved game but their isn't one saved in the directory. Display a message to tell them
+	# 	# this and move on to starting a new game
+	# 	except FileNotFoundError:
+	# 		messagebox.showinfo(title="No Saved Game Available", message="There isn't a currently saved game available to play")
+	# 		gameModeSelection()
+	# else:
+	# 	gameModeSelection()
+
+	
