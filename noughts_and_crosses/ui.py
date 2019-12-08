@@ -1,6 +1,8 @@
-# Import turtle and tkinter for GUI
+"""TODO Functions for interacting with and displaying the user interface"""
+
 import turtle
 from tkinter import messagebox
+
 from noughts_and_crosses.winning_states import WinningStates
 
 
@@ -23,19 +25,15 @@ def display_rules():
 def draw_grid():
 	'''Draws the three-by-three grid for the game'''
 
-	# Hide turtle so that you can't see the 'turtle' and the lines just appear
-	# As the line is drawn there is a weird shape at the end, so this removes this
-	turtle.hideturtle()
-	
+	# Setup turtle for drawing the grid
 	turtle.pensize(5)
 	turtle.shape("circle")
+	turtle.hideturtle() # Hide so that you can't see the 'turtle'
 	
-	# Set starting position
+	# Draw first line
 	turtle.penup()
 	turtle.setposition(-80,250)
 	turtle.pendown()
-
-	# Draw first line
 	turtle.right(90)
 	turtle.forward(510)
 
@@ -62,39 +60,32 @@ def draw_grid():
 def draw_cross(grid_position):
 	'''Draws a blue cross in the given grid position'''
 
-	positions_coords = {
-						1: {"first_line": (-240,240),
-							"second_line": (-240,100) },
-
+	# Coordinates in the user interface for turtle to use, corresponding to each grid position
+	positions_coords = {1: {"first_line": (-240,240),
+							"second_line": (-240,100)},
 						2: {"first_line": (-60,240),
-							"second_line": (-60,100) },
-
+							"second_line": (-60,100)},
 						3: {"first_line": (100,240),
-							"second_line": (100,100) },
-
+							"second_line": (100,100)},
 						4: {"first_line": (-240,60),
-							"second_line": (-240,-80) },
-
+							"second_line": (-240,-80)},
 						5: {"first_line": (-60,60),
-							"second_line": (-60,-80) },
-
+							"second_line": (-60,-80)},
 						6: {"first_line": (100,60),
-							"second_line": (100,-80) },
-
+							"second_line": (100,-80)},
 						7: {"first_line": (-250,-110),
-							"second_line": (-250,-250) },
-
+							"second_line": (-250,-250)},
 						8: {"first_line": (-60,-110),
-							"second_line": (-60,-250) },
-
+							"second_line": (-60,-250)},
 						9: {"first_line": (110,-110),
-							"second_line": (110,-250) }
+							"second_line": (110,-250)}
 					}
 
+	# Setup turtle for drawing the cross
 	turtle.pensize(2)
 	turtle.color("blue")
 
-	# Draw 'X' in first box
+	# Draw 'X' in grid position's coordinates
 	turtle.penup()
 	turtle.setposition(positions_coords[grid_position]["first_line"])
 	turtle.pendown()
@@ -107,14 +98,14 @@ def draw_cross(grid_position):
 	turtle.left(90)
 	turtle.forward(200)
 		
-	# Reset the angle turtle is facing to the original direction so that it doesn't affect
-	# the next shape drawn (this is used in all grid positions)
+	# Reset the angle turtle is facing to the original direction 
 	turtle.right(45)
 
 
 def draw_nought(grid_position):
 	'''Draws a red nought in the given grid position'''
 
+	# Coordinates in the user interface for turtle to use, corresponding to each grid position
 	positions_coords = {1: (-175,90),
 						2: (5,90),
 						3: (175,90),
@@ -126,9 +117,11 @@ def draw_nought(grid_position):
 						9: (175,-250)
 					}
 	
+	# Setup turtle for drawing the nought
 	turtle.pensize(2)
 	turtle.color("red")
 	
+	# Draw 'O' in grid position's coordinates
 	turtle.penup()
 	turtle.setposition(positions_coords[grid_position])
 	turtle.pendown()
@@ -137,11 +130,12 @@ def draw_nought(grid_position):
 
 def draw_winning_line(winning_state):
 	'''Draws a green line through the three winning grid positions'''
-	# there are 8 possible winning scenarios
 	
+	# Setup turtle for drawing the winning line
 	turtle.pensize(7)
 	turtle.color("green")
 
+	# Coordinates in the user interface for turtle to use, corresponding to each start position
 	positions_coords = {WinningStates.TOP_LEFT_TO_BOTTOM_LEFT: (-175,250),
 						WinningStates.TOP_MIDDLE_TO_BOTTOM_MIDDLE: (5,250),
 						WinningStates.TOP_RIGHT_TO_BOTTOM_RIGHT: (175,250),
@@ -170,7 +164,7 @@ def draw_winning_line(winning_state):
 		turtle.pendown()
 		turtle.forward(510)
 
-	# Diagonal line
+	# Diagonal line (TOP_LEFT_TO_BOTTOM_RIGHT)
 	elif winning_state == WinningStates.TOP_LEFT_TO_BOTTOM_RIGHT:
 		
 		turtle.penup()
@@ -180,7 +174,7 @@ def draw_winning_line(winning_state):
 		turtle.forward(710)
 		turtle.left(45)
 
-	# Diagonal line
+	# Diagonal line (TOP_RIGHT_TO_BOTTOM_LEFT)
 	elif winning_state == WinningStates.TOP_RIGHT_TO_BOTTOM_LEFT:
 
 		turtle.penup()
@@ -190,28 +184,27 @@ def draw_winning_line(winning_state):
 		turtle.forward(700)
 		turtle.right(45)
 
-	turtle.hideturtle()
-
 
 def setup_ui():
+	"""TODO"""
 
-	turtle.reset()
+	# Creates window for turtle to create ui in
+	turtle.reset() # Resets if a previous game was played in same window
 	turtle.setup(650,600)
 	turtle.title("Noughts and Crosses by Genaro Bedenko")
-	draw_grid()
 
+	# Setup game and displays instructions to user
+	draw_grid()
 	display_rules()	
 
 
 def text_input_box(title, message):
+	"""Generic turtle interaction for retriving user input as a string"""
 
-	user_input = turtle.textinput(title, message)
-
-	return user_input
+	return turtle.textinput(title, message)
 
 
 def turn_input_box(player_name):
+	"""TODO"""
 
-	user_input = int(turtle.numinput(player_name + "'s turn", "Enter your move:", minval = 1, maxval = 9))
-
-	return user_input
+	return int(turtle.numinput(player_name + "'s turn", "Enter your move:", minval = 1, maxval = 9))
