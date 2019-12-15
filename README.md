@@ -18,6 +18,6 @@ python3 play_game.py
 
 ## TODO
 
-* Testing
+* Unit testing
 * Impossible mode
 * Documentation and formal docstrings with params/returns explained
